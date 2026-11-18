@@ -10,3 +10,6 @@ tester_output.log
 
 # Virtual environments
 .venv
+
+# Generated submission files
+api/sandbox/
