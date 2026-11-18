@@ -44,4 +44,10 @@ async def question_detail(slug: str):
 
 @app.post('/questions/{slug}')
 async def answer_question(slug: str, code: ProblemSolution):
+    
     return {"msg": "Answer this "}
+
+
+@app.get('/uuid')
+async def get_user_uuid():
+    return {"msg": uuid.uuid4()}

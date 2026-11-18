@@ -1,0 +1,67 @@
+.workspace-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+  border-bottom: 1px solid #30372a;
+  background: #191f15;
+}
+.workspace-nav .MuiTab-root {
+  min-height: 57px;
+  min-width: 0;
+  padding: 16px 19px;
+  font-size: 12px;
+  text-transform: none;
+  color: #9ba98b;
+}
+.workspace-nav .Mui-selected { color: #c3eb7b; }
+.workspace-nav .MuiChip-root { font-size: 8px; letter-spacing: 1px; color: #a3b98c; border-color: #3a482e; }
+.workspace .statement-bottom .MuiButton-root { font-size: 10px; padding: 0; }
+.submission-form { padding: 28px 25px 20px; }
+.submission-intro h2 { font-size: 23px; letter-spacing: -.7px; margin: 12px 0 9px; font-weight: 500; }
+.submission-intro p { color: #91a17f; font-size: 12px; line-height: 1.9; }
+.submission-form .MuiAlert-root { font-size: 11px; line-height: 1.8; border-radius: 5px; }
+.submission-form .judge-notice { margin: 22px 0; color: #a8bfd1; border-color: #31434a; background: #192329; }
+.editor-shell { border: 1px solid #3c4a30; border-radius: 6px; overflow: hidden; }
+.editor-toolbar {
+  padding: 13px 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  background: #20291a;
+  border-bottom: 1px solid #35432a;
+  font: 10px 'IBM Plex Mono', monospace;
+  color: #c3d2b2;
+}
+.editor-toolbar .green-dot { margin-right: 7px; width: 5px; height: 5px; }
+.editor-toolbar > span:last-child { font-size: 8px; color: #859b71; }
+.source-editor .MuiOutlinedInput-root { border-radius: 0; padding: 21px 18px; background: #0f150d; }
+.source-editor fieldset { border: 0; }
+.source-editor .MuiOutlinedInput-root.Mui-focused { box-shadow: inset 0 0 0 1px #789855; }
+.source-editor textarea {
+  font: 12px/1.9 'IBM Plex Mono', monospace;
+  color: #cedfc0;
+  tab-size: 4;
+  caret-color: #c3eb7b;
+}
+.source-editor textarea::placeholder { opacity: 1; color: #596b4c; }
+.editor-status { display: flex; justify-content: space-between; gap: 12px; padding: 10px 15px; font: 8px 'IBM Plex Mono', monospace; background: #1c2416; color: #8a9e76; border-top: 1px solid #303c26; }
+.submission-form > [aria-live] { margin-top: 18px; }
+.submission-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; }
+.submission-actions > span { color: #788e63; font-size: 9px; }
+.submission-actions kbd { font: 8px 'IBM Plex Mono', monospace; border: 1px solid #3a482e; border-radius: 3px; padding: 3px 4px; }
+.submission-actions .MuiButton-root { padding: 11px 20px; font-size: 12px; white-space: nowrap; }
+.submission-footnote { margin-top: 21px; text-align: right; font: 9px 'IBM Plex Mono', monospace; color: #6e845a; }
+@media(max-width:600px) {
+  .workspace-nav { padding: 0 10px; }
+  .workspace-nav .MuiTab-root { padding: 14px 12px; font-size: 11px; }
+  .workspace-nav .MuiChip-root { font-size: 7px; }
+  .submission-form { padding: 23px 15px 18px; }
+  .submission-intro h2 { font-size: 20px; }
+  .editor-status { flex-wrap: wrap; font-size: 7px; padding: 9px 10px; }
+  .submission-actions { flex-direction: column-reverse; align-items: stretch; }
+  .submission-actions > span, .submission-footnote { text-align: center; }
+  .source-editor textarea { font-size: 11px; }
+  .editor-toolbar { padding: 12px 10px; }
+}
