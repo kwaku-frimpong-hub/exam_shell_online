@@ -1,0 +1,277 @@
+{
+    "first_word": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/first_word/sub.txt"
+    },
+    "fizzbuzz": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/fizzbuzz/sub.txt"
+    },
+    "ft_putstr": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/ft_putstr/sub.txt"
+    },
+    "ft_strcpy": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/ft_strcpy/sub.txt"
+    },
+    "ft_strlen": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/ft_strlen/sub.txt"
+    },
+    "ft_swap": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/ft_swap/sub.txt"
+    },
+    "repeat_alpha": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/repeat_alpha/sub.txt"
+    },
+    "rev_print": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/rev_print/sub.txt"
+    },
+    "rot_13": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/rot_13/sub.txt"
+    },
+    "rotone": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/rotone/sub.txt"
+    },
+    "search_and_replace": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/search_and_replace/sub.txt"
+    },
+    "ulstr": {
+        "level": "level0",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level0/ulstr/sub.txt"
+    },
+    "alpha_mirror": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/alpha_mirror/sub.txt"
+    },
+    "camel_to_snake": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/camel_to_snake/sub.txt"
+    },
+    "do_op": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/do_op/sub.txt"
+    },
+    "ft_atoi": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/ft_atoi/sub.txt"
+    },
+    "ft_strcmp": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/ft_strcmp/sub.txt"
+    },
+    "ft_strcspn": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/ft_strcspn/sub.txt"
+    },
+    "ft_strdup": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/ft_strdup/sub.txt"
+    },
+    "ft_strrev": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/ft_strrev/sub.txt"
+    },
+    "inter": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/inter/sub.txt"
+    },
+    "is_power_of_2": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/is_power_of_2/sub.txt"
+    },
+    "last_word": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/last_word/sub.txt"
+    },
+    "max": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/max/sub.txt"
+    },
+    "print_bits": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/print_bits/sub.txt"
+    },
+    "reverse_bits": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/reverse_bits/sub.txt"
+    },
+    "snake_to_camel": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/snake_to_camel/sub.txt"
+    },
+    "swap_bits": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/swap_bits/sub.txt"
+    },
+    "union": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/union/sub.txt"
+    },
+    "wdmatch": {
+        "level": "level1",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level1/wdmatch/sub.txt"
+    },
+    "add_prime_sum": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/add_prime_sum/sub.txt"
+    },
+    "epur_str": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/epur_str/sub.txt"
+    },
+    "expand_str": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/expand_str/sub.txt"
+    },
+    "ft_atoi_base": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/ft_atoi_base/sub.txt"
+    },
+    "ft_list_size": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/ft_list_size/sub.txt"
+    },
+    "ft_range": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/ft_range/sub.txt"
+    },
+    "ft_rrange": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/ft_rrange/sub.txt"
+    },
+    "hidenp": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/hidenp/sub.txt"
+    },
+    "lcm": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/lcm/sub.txt"
+    },
+    "paramsum": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/paramsum/sub.txt"
+    },
+    "pgcd": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/pgcd/sub.txt"
+    },
+    "print_hex": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/print_hex/sub.txt"
+    },
+    "rstr_capitalizer": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/rstr_capitalizer/sub.txt"
+    },
+    "str_capitalizer": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/str_capitalizer/sub.txt"
+    },
+    "tab_mult": {
+        "level": "level2",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level2/tab_mult/sub.txt"
+    },
+    "flood_fill": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/flood_fill/sub.txt"
+    },
+    "fprime": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/fprime/sub.txt"
+    },
+    "ft_itoa": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/ft_itoa/sub.txt"
+    },
+    "ft_list_foreach": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/ft_list_foreach/sub.txt"
+    },
+    "ft_list_remove_if": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/ft_list_remove_if/sub.txt"
+    },
+    "ft_split": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/ft_split/sub.txt"
+    },
+    "rev_wstr": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/rev_wstr/sub.txt"
+    },
+    "rostring": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/rostring/sub.txt"
+    },
+    "sort_int_tab": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/sort_int_tab/sub.txt"
+    },
+    "sort_list": {
+        "level": "level3",
+        "rank": "rank02",
+        "question_path": ".resources/rank02/level3/sort_list/sub.txt"
+    }
+}
