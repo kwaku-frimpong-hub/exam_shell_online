@@ -10,31 +10,26 @@ type Props = {
   loading: boolean
   error: string
   onRetry: () => void
+  onPassed?: () => void
 }
 
-function readDraft(slug: string) {
-  try { return localStorage.getItem(`mencho:draft:${slug}`) || '' }
-  catch { return '' }
-}
-
-export default function ProblemWorkspace({ slug, statement, loading, error, onRetry }: Props) {
+export default function ProblemWorkspace({ slug, statement, loading, error, onRetry, onPassed }: Props) {
   const [tab, setTab] = useState(0)
-  const [code, setCode] = useState(() => readDraft(slug))
-  const [saved, setSaved] = useState(false)
+  const [code, setCode] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [feedback, setFeedback] = useState<{ severity: 'error' | 'info'; message: string } | null>(null)
+  const [feedback, setFeedback] = useState<{ severity: 'error' | 'info' | 'success'; message: string; output?: string } | null>(null)
   const activeRequest = useRef<AbortController | null>(null)
   const lineCount = code.split('\n').length
 
-  useEffect(() => () => activeRequest.current?.abort(), [])
+  useEffect(() => {
+    // Remove drafts saved by the previous version; code now lives only in state.
+    try { localStorage.removeItem(`mencho:draft:${slug}`) } catch { /* Storage may be blocked. */ }
+    return () => activeRequest.current?.abort()
+  }, [slug])
 
   function updateCode(value: string) {
     setCode(value)
     setFeedback(null)
-    try {
-      localStorage.setItem(`mencho:draft:${slug}`, value)
-      setSaved(true)
-    } catch { setSaved(false) }
   }
 
   function editorKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -63,7 +58,7 @@ export default function ProblemWorkspace({ slug, statement, loading, error, onRe
     activeRequest.current = controller
     setSubmitting(true)
     setFeedback(null)
-    const timeout = window.setTimeout(() => controller.abort(), 30000)
+    const timeout = window.setTimeout(() => controller.abort(), 60000)
     try {
       const userUuid = await getUserUuid()
       if (controller.signal.aborted) return
@@ -73,24 +68,30 @@ export default function ProblemWorkspace({ slug, statement, loading, error, onRe
         body: JSON.stringify({ code, session_id: userUuid }),
         signal: controller.signal,
       })
+      const result = await response.json()
+      if (controller.signal.aborted) return
       if (!response.ok) {
         throw new Error(response.status === 422
           ? 'The API could not validate this submission. Please check your code and try again.'
-          : `Submission failed (${response.status}). Please try again.`)
+          : typeof result.detail === 'string' ? result.detail : `Submission failed (${response.status}). Please try again.`)
       }
-      // The current API returns a placeholder, not a judge verdict.
-      // Do not present a successful HTTP request as an accepted solution.
+      if (!['passed', 'failed', 'time_limit_exceeded', 'judge_error'].includes(result.status)
+        || typeof result.message !== 'string' || typeof result.output !== 'string') {
+        throw new Error('The judge returned an unexpected response. Please try again.')
+      }
       setFeedback({
-        severity: 'info',
-        message: 'The API responded, but the judge is not connected yet. Your code has not been tested. Your draft is still here.',
+        severity: result.status === 'passed' ? 'success' : 'error',
+        message: result.message,
+        output: result.output,
       })
+      if (result.status === 'passed') onPassed?.()
     } catch (err) {
       if (!controller.signal.aborted) {
         setFeedback({ severity: 'error', message: err instanceof TypeError
           ? 'Could not reach the API. Check your connection and make sure the backend is running.'
           : err instanceof Error ? err.message : 'Something went wrong. Please try again.' })
       } else {
-        setFeedback({ severity: 'error', message: 'The request timed out. Your draft is safe; please try again.' })
+        setFeedback({ severity: 'error', message: 'The request timed out. Your code is still in the editor; please try again.' })
       }
     } finally {
       window.clearTimeout(timeout)
@@ -128,7 +129,7 @@ export default function ProblemWorkspace({ slug, statement, loading, error, onRe
             <p>Paste your solution below. Keep the expected filename and allowed functions in mind.</p>
           </div>
           <Alert severity="info" variant="outlined" className="judge-notice">
-            Submission preview: the editor is ready, but automated judging is not connected yet.
+            Local practice judge · Your code is compiled and checked against the problem’s tester. Each run has a 10-second limit.
           </Alert>
           <div className="editor-shell">
             <div className="editor-toolbar">
@@ -155,12 +156,18 @@ export default function ProblemWorkspace({ slug, statement, loading, error, onRe
               } }}
             />
             <div className="editor-status">
-              <span>{saved ? '✓ Draft saved in this browser' : 'Drafts stay in this browser'}</span>
+              <span>Code is cleared when you leave this problem</span>
               <span>{lineCount} {lineCount === 1 ? 'line' : 'lines'} · {code.length.toLocaleString()} characters</span>
             </div>
           </div>
           <div aria-live="polite" aria-atomic="true">
-            {feedback && <Alert severity={feedback.severity} variant="outlined">{feedback.message}</Alert>}
+            {feedback && <>
+              <Alert severity={feedback.severity} variant="outlined">{feedback.message}</Alert>
+              {feedback.output && <Paper variant="outlined" className="judge-output">
+                <Typography component="h3">Tester output</Typography>
+                <pre>{feedback.output}</pre>
+              </Paper>}
+            </>}
           </div>
           <div className="submission-actions">
             <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to submit · Tab inserts spaces</span>

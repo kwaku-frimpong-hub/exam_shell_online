@@ -3,6 +3,7 @@ import { Box, Button, Chip, CircularProgress, InputBase, Paper, Table, TableBody
 import './App.css'
 import ProblemWorkspace from './ProblemWorkspace'
 import { getUserUuid } from './userIdentity'
+import ExamPage from './ExamPage'
 
 type Problem = { slug: string; level: number }
 const levels = ['Foundations', 'Building blocks', 'Problem solving', 'The final stretch']
@@ -27,6 +28,7 @@ function App() {
   const [detailLoading, setDetailLoading] = useState(true)
   const isList = route === '/problems'
   const isDetail = route.startsWith('/problems/')
+  const isExam = route === '/exams'
   const slug = isDetail ? route.slice('/problems/'.length) : ''
   const problem = problems.find((item) => item.slug === slug)
   const filtered = problems.filter((item) => (level === 'all' || item.level === Number(level)) && item.slug.toLowerCase().includes(search.toLowerCase()))
@@ -100,18 +102,18 @@ function App() {
     <Box className="app">
       <header className="site-header">
         <a className="brand" href="#/" aria-label="Mencho Shell home"><span className="brand-icon">m<span>_</span></span>mencho<span className="brand-light">shell</span><span className="beta">BETA</span></a>
-        <nav aria-label="Main navigation"><a className={!isList && !isDetail ? 'active' : ''} href="#/">Overview</a><a className={isList || isDetail ? 'active' : ''} href="#/problems">Problemset <span className="nav-count">02</span></a></nav>
+        <nav aria-label="Main navigation"><a className={!isList && !isDetail && !isExam ? 'active' : ''} href="#/">Overview</a><a className={isList || isDetail ? 'active' : ''} href="#/problems">Problemset <span className="nav-count">02</span></a><a className={isExam ? 'active' : ''} href="#/exams">Exam practice</a></nav>
         <span className="header-note"><span className="green-dot" /> Built for the grind.</span>
       </header>
 
       <main>
-        {!isList && !isDetail ? <>
+        {isExam ? <ExamPage /> : !isList && !isDetail ? <>
           <section className="hero">
             <div className="hero-copy">
               <div className="eyebrow"><span className="green-dot" /> YOUR NEXT RANK STARTS HERE</div>
               <Typography component="h1">Less scrolling.<br />More <span className="accent">solving.</span><span className="cursor">_</span></Typography>
               <p>A little practice. A lot of progress. Sharpen your C skills with a focused problemset built for the 42 exam.</p>
-              <div className="hero-actions"><Button variant="contained" className="button primary" href="#/problems">Explore the problemset <span>↗</span></Button><span className="free-note">No account. Just code.</span></div>
+              <div className="hero-actions"><Button variant="contained" className="button primary" href="#/problems">Explore the problemset <span>↗</span></Button><Button href="#/exams" size="small">Try an exam →</Button></div>
               <div className="hero-tags"><span>⌘ C language</span><span>◷ At your own pace</span><span>↗ From basics to bitwise</span></div>
             </div>
             <Paper className="terminal">
@@ -148,7 +150,7 @@ function App() {
           <div className="page-heading detail-heading"><div className="breadcrumb"><a href="#/">Home</a><span>/</span><a href="#/problems">Problemset</a><span>/</span>{slug}</div><a className="text-link" href="#/problems">← Back to problems</a><h1>{slug}<span className="accent">.</span></h1><div className="detail-tags"><span className={`level-label level-${problem?.level ?? 0}`}>{problem ? `LEVEL ${pad(problem.level)}` : 'PROBLEM'}</span><span className="language-tag">C</span><span>Rank 02</span></div></div>
           <div className="problem-layout">
             <ProblemWorkspace key={slug} slug={slug} statement={statement} loading={detailLoading} error={detailError} onRetry={retryRequest} />
-            <aside><Paper variant="outlined" className="sidebar-card"><span className="eyebrow">THE BRIEF</span><h3>Before you begin</h3><ul className="checklist"><li><span>01</span> Check the allowed functions.</li><li><span>02</span> Match the expected filename.</li><li><span>03</span> Don’t forget the edge cases.</li><li><span>04</span> Review before submitting.</li></ul><div className="local-note"><span className="green-dot" /> Your next attempt starts here.<p>Open the Submit code tab to write your solution. Drafts are kept in your browser when storage is available.</p></div></Paper><div className="tip"><span>↳ Make it a habit</span><p>Stuck? Step away, then come back with fresh eyes.</p></div></aside>
+            <aside><Paper variant="outlined" className="sidebar-card"><span className="eyebrow">THE BRIEF</span><h3>Before you begin</h3><ul className="checklist"><li><span>01</span> Check the allowed functions.</li><li><span>02</span> Match the expected filename.</li><li><span>03</span> Don’t forget the edge cases.</li><li><span>04</span> Review before submitting.</li></ul><div className="local-note"><span className="green-dot" /> Your next attempt starts here.<p>Open the Submit code tab to write your solution. Copy anything you want to keep before leaving this problem; the editor will be cleared.</p></div></Paper><div className="tip"><span>↳ Make it a habit</span><p>Stuck? Step away, then come back with fresh eyes.</p></div></aside>
           </div>
         </>}
       </main>
