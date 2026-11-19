@@ -5,6 +5,53 @@
 - `api/` — FastAPI backend, Python dependencies, question data, and tester resources.
 - `frontend/` — frontend application.
 
+## Run everything with Docker
+
+Install Docker Engine/Desktop with Docker Compose v2. From the repository root:
+
+```sh
+docker compose up --build -d
+```
+
+Open **http://localhost:8080**. No host Python, Node, GCC, or virtual environment
+is needed. The frontend image builds the app with Node and serves it using
+Nginx. Requests to `/api/` are proxied to FastAPI over a private Docker network;
+the API port is not published to the host. The backend image includes Python,
+locked dependencies, Bash, GCC, libc headers, diff, coreutils, and tput.
+
+Useful commands:
+
+```sh
+docker compose logs -f
+docker compose ps
+docker compose down
+```
+
+The default bind address is localhost and judging is **disabled**. To change
+the port/address, copy `.env.example` to `.env` and edit `APP_PORT`/`APP_HOST`.
+For example, `APP_HOST=0.0.0.0` exposes the app on your network; keep judging
+disabled for shared/public access. Public hosting also needs HTTPS via a
+reverse proxy or your hosting provider.
+
+For **trusted local testing only**, enable the existing judge:
+
+```sh
+ENABLE_LOCAL_JUDGE=1 docker compose up --build -d
+```
+
+Disable it again using `ENABLE_LOCAL_JUDGE=0 docker compose up -d`.
+Containers run as non-root with read-only root filesystems, dropped capabilities,
+resource limits, and temporary scratch storage. The API network has no external
+egress. **These are defense-in-depth settings, not a secure judge sandbox.**
+Submissions still share the API container's user/process/network environment.
+Do not enable judging for friends or public users until execution is moved to a
+properly isolated judge worker. Nothing mounts the Docker socket or host source
+tree into these containers.
+
+Submission scratch files disappear when containers stop; results are not stored.
+Container rebuilds include code/resource changes. Build contexts exclude local
+environments, dependencies, submitted code, databases, and credential files.
+
 ## Run the backend
 
 From the repository root:

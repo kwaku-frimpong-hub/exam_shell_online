@@ -1,0 +1,66 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      ENABLE_LOCAL_JUDGE: "${ENABLE_LOCAL_JUDGE:-0}"
+    expose:
+      - "8000"
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    # Judge executables need an executable scratch filesystem.
+    # This is NOT isolation between submissions and the API.
+    tmpfs:
+      - /app/api/sandbox:rw,exec,nosuid,nodev,size=128m,uid=10001,gid=10001,mode=0700
+      - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    networks:
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/mencho_shell/Dockerfile
+    ports:
+      - "${APP_HOST:-127.0.0.1}:${APP_PORT:-8080}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m,mode=1777
+    mem_limit: 128m
+    cpus: 0.5
+    pids_limit: 64
+    networks:
+      - web
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  web:
+  backend:
+    internal: true
