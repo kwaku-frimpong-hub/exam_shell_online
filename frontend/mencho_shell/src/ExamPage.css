@@ -25,6 +25,11 @@
 .exam-question small { display: block; font: 8px 'IBM Plex Mono', monospace; color: #869d70; margin-bottom: 6px; }
 .exam-question strong { display: block; font: 11px 'IBM Plex Mono', monospace; overflow-wrap: anywhere; }
 .exam-step-arrow { margin-left: auto; }
+.exam-question-list .exam-question-locked { display: flex; align-items: center; gap: 11px; padding: 20px 14px; border-bottom: 1px solid #2e3a24; color: #718363; background: #141a10; }
+.exam-question-locked .exam-step { border-color: #303e27; color: #6c7d5e; }
+.exam-question-locked strong { color: #849477; }
+.exam-lock-hint { display: block; margin-top: 7px; font-size: 9px; line-height: 1.6; color: #6f825f; }
+.exam-unlock-note { margin: 0 0 16px; font-size: 11px; color: #8fa17f; line-height: 1.8; }
 .exam-question-list > p { padding: 16px; font-size: 10px; line-height: 1.9; color: #81986c; }
 .exam-current-heading { display: flex; justify-content: space-between; gap: 15px; align-items: center; margin: 0 0 22px; }
 .exam-current-heading h2 { font: 25px 'IBM Plex Mono', monospace; margin-top: 10px; overflow-wrap: anywhere; }

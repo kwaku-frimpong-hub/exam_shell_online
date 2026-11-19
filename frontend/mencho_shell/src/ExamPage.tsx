@@ -3,6 +3,7 @@ import { Alert, Box, Button, Chip, CircularProgress, Dialog, DialogActions, Dial
 import ProblemWorkspace from './ProblemWorkspace'
 import { fetchExam, readExam, saveExam } from './examApi'
 import './ExamPage.css'
+import { isQuestionUnlocked } from './examProgress'
 
 function ExamQuestion({ slug, onPassed }: { slug: string; onPassed: () => void }) {
   const [statement, setStatement] = useState('')
@@ -38,6 +39,11 @@ export default function ExamPage() {
   const slug = questions[selected]
   const progress = questions.length ? passed.length / questions.length * 100 : 0
   const complete = questions.length > 0 && passed.length === questions.length
+  const nextUnlocked = isQuestionUnlocked(questions, passed, selected + 1)
+
+  function selectQuestion(index: number) {
+    if (!loading && isQuestionUnlocked(questions, passed, index)) setSelected(index)
+  }
   useEffect(() => () => request.current?.abort(), [])
 
   async function generate() {
@@ -82,7 +88,7 @@ export default function ExamPage() {
       <div className="exam-start-art" aria-hidden="true"><span>01</span><i /><span>02</span><i /><span>03</span><i /><span>04</span></div>
       <div className="eyebrow">A FRESH SET. A FRESH START.</div>
       <Typography component="h2">Practice the climb, not just the questions.</Typography>
-      <p>Generate a Rank 02 practice set and move through one randomly selected problem per available level. Read, solve, submit, repeat.</p>
+      <p>Generate a Rank 02 practice set with one randomly selected problem per level. Pass each question to reveal the next. Read, solve, submit, repeat.</p>
       <div className="exam-rules"><span>↳ One question per level</span><span>◷ Untimed practice</span><span>⌘ C language</span></div>
       <Button variant="contained" disabled={loading} onClick={generate} startIcon={loading ? <CircularProgress size={16} color="inherit" /> : undefined}>
         {loading ? 'Preparing your questions…' : 'Generate practice exam ↗'}
@@ -100,13 +106,21 @@ export default function ExamPage() {
           <Paper variant="outlined" className="exam-question-list">
             <div className="exam-list-title"><span>THE CLIMB</span><span>{passed.length}/{questions.length} passed</span></div>
             <LinearProgress variant="determinate" value={progress} aria-label="Practice questions passed" />
-            {questions.map((question, index) => <Button key={question} className={`exam-question ${selected === index ? 'current' : ''}`}
-              aria-current={selected === index ? 'step' : undefined} onClick={() => setSelected(index)} disabled={loading}>
-              <span className={`exam-step ${passed.includes(question) ? 'passed' : ''}`}>{passed.includes(question) ? '✓' : String(index + 1).padStart(2, '0')}</span>
-              <span><small>LEVEL {String(index).padStart(2, '0')}</small><strong>{question}</strong></span>
-              <span className="exam-step-arrow">→</span>
-            </Button>)}
-            <p>Switching questions clears the editor. Copy any code you want to keep.</p>
+            {questions.map((question, index) => {
+              const unlocked = isQuestionUnlocked(questions, passed, index)
+              if (!unlocked) return <div key={index} className="exam-question exam-question-locked" aria-label={`Question ${index + 1} locked. Pass all previous questions to reveal it.`}>
+                <span className="exam-step" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <span><small>LEVEL {String(index).padStart(2, '0')}</small><strong>Question hidden</strong><span className="exam-lock-hint">Pass the previous question to reveal</span></span>
+                <span className="exam-step-arrow" aria-hidden="true">—</span>
+              </div>
+              return <Button key={index} className={`exam-question ${selected === index ? 'current' : ''}`}
+                aria-current={selected === index ? 'step' : undefined} onClick={() => selectQuestion(index)} disabled={loading}>
+                <span className={`exam-step ${passed.includes(question) ? 'passed' : ''}`}>{passed.includes(question) ? '✓' : String(index + 1).padStart(2, '0')}</span>
+                <span><small>LEVEL {String(index).padStart(2, '0')}</small><strong>{question}</strong></span>
+                <span className="exam-step-arrow">→</span>
+              </Button>
+            })}
+            <p>Pass each question to unlock the next. Switching questions clears the editor; copy any code you want to keep.</p>
           </Paper>
           <div className="tip"><span>↳ Practice, not pressure</span><p>This is an untimed, browser-only practice set—not an official exam. Pass markers reset when you leave.</p></div>
         </aside>
@@ -116,9 +130,11 @@ export default function ExamPage() {
           {loading ? <div className="empty-state"><CircularProgress size={22} /> Preparing your next set…</div>
             : <ExamQuestion key={slug} slug={slug} onPassed={() => setPassed((previous) => previous.includes(slug) ? previous : [...previous, slug])} />}
           <div className="exam-bottom-nav">
-            <Button disabled={selected === 0 || loading} onClick={() => setSelected((n) => n - 1)}>← Previous question</Button>
-            <Button disabled={selected === questions.length - 1 || loading} onClick={() => setSelected((n) => n + 1)}>Next question →</Button>
+            <Button disabled={selected === 0 || loading} onClick={() => selectQuestion(selected - 1)}>← Previous question</Button>
+            <Button disabled={!nextUnlocked || loading} onClick={() => selectQuestion(selected + 1)}>Next question →</Button>
           </div>
+          {!nextUnlocked && selected < questions.length - 1 && <p className="exam-unlock-note" role="status">Pass this question’s tester checks to reveal the next question.</p>}
+          {nextUnlocked && <Alert severity="success" variant="outlined">The next question is unlocked. Continue when you’re ready.</Alert>}
           {complete && <Alert severity="success" variant="outlined">You made the climb. Every question in this practice set passed its available tester checks.</Alert>}
         </div>
       </div>

@@ -59,10 +59,14 @@ to it during development. Production hosting needs the same `/api` proxy.
 
 Open **Exam practice** in the navigation (`#/exams`) to generate a Rank 02 set
 using `GET /exams/rank02`. The API selects one random question per available
-level. Read and submit each question in the same workspace; passing the tester
-marks that question complete for the current visit.
+level. Only the first question is revealed initially. Passing its tester checks
+reveals the next question; later questions remain hidden and navigation to them
+is disabled until every preceding question has passed.
 
 This is untimed practice, not an official exam session. The selected question
 set survives refreshes in the current browser tab, but pass markers reset when
 leaving the page. Code is never saved and clears when switching questions.
 Generating a fresh set asks for confirmation.
+
+Progression is a frontend practice feature, not server-enforced exam security:
+the current API still returns the full question set.
