@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: mencho-shell
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: "10000"
+      # Enabled for the requested trusted practice use. This is not a secure
+      # sandbox; submitted programs still run alongside the API.
+      - key: ENABLE_LOCAL_JUDGE
+        value: "1"

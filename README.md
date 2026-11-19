@@ -5,6 +5,50 @@
 - `api/` — FastAPI backend, Python dependencies, question data, and tester resources.
 - `frontend/` — frontend application.
 
+## Deploy one container on Render Free
+
+The root `Dockerfile` builds the frontend and packages it with Python, FastAPI,
+GCC, and the tester tools. FastAPI serves the frontend at `/`, the API at
+`/api/`, and a health check at `/healthz`. Nginx and a separate backend service
+are not needed. The original two-container Compose setup below is unchanged.
+
+### Deploy from GitHub
+
+1. Commit and push the project, including `Dockerfile` and `render.yaml`.
+2. On Render, select **New → Blueprint** and connect your repository.
+3. Use the included `render.yaml` to create the **Free** web service.
+4. Open its HTTPS `onrender.com` URL when the deployment finishes.
+
+Alternatively, create a **Web Service** manually: choose **Docker**, leave
+**Root Directory** blank, use `./Dockerfile` with the repository root as the
+build context, select the **Free** plan, and set the health-check path to
+`/healthz`. Set `PORT=10000` and, if intentionally enabling trusted practice
+judging, `ENABLE_LOCAL_JUDGE=1`. Leave the Docker command override empty.
+
+**The supplied Blueprint enables judging as requested. It is not a secure code
+execution sandbox.** Keep access restricted to your trusted user. Render does
+not apply the security/resource settings in `compose.yaml`, and this single
+container still shares its permissions, files, and network with submitted code.
+Do not put credentials or other sensitive data in the container. Set
+`ENABLE_LOCAL_JUDGE=0` in Render to disable execution.
+
+No persistent disk or database is required. Render Free sleeps after 15 minutes
+of inactivity, can take about a minute to wake, and loses local file changes
+on restart. The shared monthly allowance is 750 free service-hours. CPU is
+limited, so the 10-second tester timeout may be reached sooner than on your
+machine; no judging performance guarantee is implied.
+
+### Test the combined image locally
+
+```sh
+docker build -t mencho-shell .
+docker run --rm --name mencho-shell -p 127.0.0.1:8080:10000 -e ENABLE_LOCAL_JUDGE=1 mencho-shell
+```
+
+Open `http://localhost:8080`. Stop with Ctrl+C, or run `docker stop mencho-shell`
+from another terminal. The container listens on `$PORT` (default `10000`);
+override it with `-e PORT=...` and adjust the port mapping if needed.
+
 ## Run everything with Docker
 
 Install Docker Engine/Desktop with Docker Compose v2. From the repository root:
